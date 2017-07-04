@@ -2,7 +2,7 @@
 This is a source code of uBoot for UAVX board.
 
 # Download source code
-    git clone https://github.com/Radoslaw-Przybysz/uboot_imx.git
+    git clone https://github.com/Radoslaw-Przybysz/uboot.git
     cd uboot_imx
 
 # Install & select cross compiler
