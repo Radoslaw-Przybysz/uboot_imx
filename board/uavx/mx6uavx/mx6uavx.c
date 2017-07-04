@@ -954,3 +954,9 @@ void reset_cpu(ulong addr)
 {
 }
 #endif
+
+#ifdef CONFIG_LDO_BYPASS_CHECK
+void ldo_mode_set(int ldo_bypass)
+{
+}
+#endif
