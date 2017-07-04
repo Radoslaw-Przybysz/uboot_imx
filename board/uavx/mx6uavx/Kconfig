@@ -1,0 +1,12 @@
+if TARGET_MX6UAVX
+
+config SYS_BOARD
+	default "mx6uavx"
+
+config SYS_VENDOR
+	default "uavx"
+
+config SYS_CONFIG_NAME
+	default "mx6uavx"
+
+endif
