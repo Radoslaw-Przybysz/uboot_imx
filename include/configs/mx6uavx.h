@@ -91,11 +91,12 @@
 
 #undef CONFIG_CMD_NET
 #undef CONFIG_CMD_PING
-#undef CONFIG_SPL_ETH_SUPPORT
 #undef CONFIG_CMD_DNS
 #undef CONFIG_CMD_CDP
 #undef CONFIG_CMD_SNTP
 #undef CONFIG_CMD_LINK_LOCAL
 #undef CONFIG_CMD_RARP
+
+#undef CONFIG_SPL_ETH_SUPPORT
 
 #endif                      
