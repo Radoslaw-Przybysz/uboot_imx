@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2012 Freescale Semiconductor, Inc.
+ * Copyright (C) 2017 UAVX.
  *
- * Configuration settings for the Freescale i.MX6Q SabreSD board.
+ * Configuration settings for the Freescale i.MX6Q UAVX board.
  *
  * SPDX-License-Identifier:	GPL-2.0+
  */
@@ -34,6 +34,7 @@
 #define CONFIG_CMD_EXT4_WRITE
 #define CONFIG_DOS_PARTITION
 
+/*
 #define CONFIG_CMD_PING
 #define CONFIG_CMD_DHCP
 #define CONFIG_CMD_MII
@@ -43,6 +44,7 @@
 #define CONFIG_FEC_XCV_TYPE		RGMII
 #define CONFIG_ETHPRIME			"FEC"
 #define CONFIG_FEC_MXC_PHYADDR		3
+*/
 
 #define CONFIG_PHYLIB
 #define CONFIG_PHY_MICREL

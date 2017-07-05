@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2012 Freescale Semiconductor, Inc.
+ * Copyright (C) 2017 UAVX.
  *
- * Configuration settings for the Freescale i.MX6Q SabreSD board.
+ * Configuration settings for the Freescale i.MX6Q UAVX board.
  *
  * SPDX-License-Identifier:	GPL-2.0+
  */
@@ -15,11 +15,11 @@
 #include "imx6_spl.h"
 #endif
 
-#define CONFIG_MACH_TYPE	5082
+#define CONFIG_MACH_TYPE		5082
 #define CONFIG_MXC_UART_BASE	UART1_BASE
-#define CONFIG_CONSOLE_DEV	"ttymxc0"
-#define CONFIG_MMCROOT		"/dev/mmcblk1p2"
-#define CONFIG_SATAROOT		"/dev/sda2"
+#define CONFIG_CONSOLE_DEV		"ttymxc0"
+#define CONFIG_MMCROOT			"/dev/mmcblk1p2"
+#define CONFIG_SATAROOT			"/dev/sda2"
 
 /* PARAMETERS FROM _defconfig (they are called there without CONFIG_)*/
 #define CONFIG_UAVX_DEFAULT_ARCH_PREFIX  CONFIG_BOARD_TYPE_PREFIX
@@ -58,16 +58,9 @@
 #define CONFIG_SYS_I2C_MXC_I2C3		/* enable I2C bus 3 */
 #define CONFIG_SYS_I2C_SPEED		  100000
 
-/* PMIC */
-#if 0
-#define CONFIG_POWER
-#define CONFIG_POWER_I2C
-#define CONFIG_POWER_PFUZE100
-#define CONFIG_POWER_PFUZE100_I2C_ADDR	0x08
-#endif
-
 /* USB Configs */
 #define CONFIG_CMD_USB
+
 #ifdef CONFIG_CMD_USB
 #define CONFIG_USB_EHCI
 #define CONFIG_USB_EHCI_MX6
@@ -96,4 +89,4 @@
 #define CONFIG_LIBATA
 #endif
 
-#endif                         /* __MX6QSABRESD_CONFIG_H */
+#endif                      
