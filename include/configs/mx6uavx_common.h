@@ -34,23 +34,8 @@
 #define CONFIG_CMD_EXT4_WRITE
 #define CONFIG_DOS_PARTITION
 
-/*
-#define CONFIG_CMD_PING
-#define CONFIG_CMD_DHCP
-#define CONFIG_CMD_MII
-#define CONFIG_FEC_MXC
-#define CONFIG_MII
-#define IMX_FEC_BASE			ENET_BASE_ADDR
-#define CONFIG_FEC_XCV_TYPE		RGMII
-#define CONFIG_ETHPRIME			"FEC"
-#define CONFIG_FEC_MXC_PHYADDR		3
-*/
-
-#define CONFIG_PHYLIB
-#define CONFIG_PHY_MICREL
-#define CONFIG_PHY_MICREL_KSZ9031
-
 #define CONFIG_CMD_SF
+
 #ifdef CONFIG_CMD_SF
 #define CONFIG_SPI_FLASH_SST
 #define CONFIG_SPI_FLASH_SST26
@@ -100,23 +85,13 @@
 #define CONFIG_ENV_DEFAULT_IMG_FILE         "zImage-" CONFIG_UAVX_DEFAULT_ARCH_PREFIX "UAVX" CONFIG_UAVX_DEFAULT_ARCH_POSTFIX
 #define CONFIG_ENV_DEFAULT_FDT_FILE                   CONFIG_UAVX_DEFAULT_ARCH_PREFIX "UAVX" CONFIG_UAVX_DEFAULT_ARCH_POSTFIX ".dtb"
 #define CONFIG_ENV_DEFAULT_SCR_FILE         "boot-"   CONFIG_UAVX_DEFAULT_ARCH_PREFIX "UAVX" CONFIG_UAVX_DEFAULT_ARCH_POSTFIX ".scr"
-#define CONFIG_ENV_DEFAULT_ETH_ADDR         "00:0D:15:00:D1:75"
-#define CONFIG_ENV_DEFAULT_CLIENT_IP        "192.168.0.150"
-#define CONFIG_ENV_DEFAULT_SERVER_IP        "192.168.0.1"
-#define CONFIG_ENV_DEFAULT_NETMASK          "255.255.255.0"
-#define CONFIG_ENV_DEFAULT_NFSROOT          "/home/fedevel/nfs"
-#define CONFIG_ENV_DEFAULT_TFTP_DIR         "imx6"
 
 #define CONFIG_EXTRA_ENV_SETTINGS \
-	"tftp_dir=" CONFIG_ENV_DEFAULT_TFTP_DIR "\0" \
-	"tftp_dir=" CONFIG_ENV_DEFAULT_TFTP_DIR "\0" \
 	"script="   CONFIG_ENV_DEFAULT_SCR_FILE "\0" \
 	"image="    "zImage" "\0" \
 	"fdt_file=" CONFIG_ENV_DEFAULT_FDT_FILE "\0" \
 	"fdt_addr=0x18000000\0" \
 	"boot_fdt=try\0" \
-	"ip_dyn=yes\0" \
-	"nfsroot=" CONFIG_ENV_DEFAULT_NFSROOT "\0" \
 	"console=" CONFIG_CONSOLE_DEV "\0" \
 	"dfuspi=dfu 0 sf 0:0:10000000:0\0" \
 	"dfu_alt_info_spl=spl raw 0x400\0" \
@@ -132,19 +107,6 @@
 	"sataroot=" CONFIG_SATAROOT " rootwait rw\0" \
 	"spidev=" __stringify(CONFIG_ENV_SPI_BUS) "\0" \
 	"spics=" __stringify(CONFIG_ENV_SPI_CS) "\0" \
-	"set_ethernet=" \
-		"if test ${ethaddr}; then; else " \
-			"setenv ethaddr  " CONFIG_ENV_DEFAULT_ETH_ADDR  "; " \
-		"fi; " \
-		"if test ${ipaddr}; then; else " \
-			"setenv ipaddr   " CONFIG_ENV_DEFAULT_CLIENT_IP "; " \
-		"fi; " \
-		"if test -n ${serverip}; then; else " \
-			"setenv serverip " CONFIG_ENV_DEFAULT_SERVER_IP "; " \
-		"fi; " \
-		"if test ${netmask}; then; else " \
-			"setenv netmask  " CONFIG_ENV_DEFAULT_NETMASK   "; " \
-		"fi\0" \
 	"update_set_filename=" \
 		"if test ${upd_uboot}; then; else " \
 			"setenv upd_uboot " CONFIG_ENV_DEFAULT_UBT_FILE  "; " \
@@ -157,64 +119,6 @@
 		"fi; " \
 		"if test ${upd_script}; then; else " \
 			"setenv upd_script " CONFIG_ENV_DEFAULT_SCR_FILE "; " \
-		"fi\0" \
-	"update_uboot=" \
-		"run set_ethernet; " \
-		"run update_set_filename; " \
-		"if mmc dev ${mmcdev}; then "	\
-			"if tftp ${tftp_dir}/${upd_uboot}; then " \
-				"setexpr fw_sz ${filesize} / 0x200; " \
-				"setexpr fw_sz ${fw_sz} + 1; " \
-				"mmc write ${loadaddr} 0x2 ${fw_sz}; " \
-			"fi; "	\
-		"fi\0" \
-	"update_kernel=" \
-		"run set_ethernet; " \
-		"run update_set_filename; " \
-		"if mmc dev ${mmcdev}; then "	\
-			"if tftp ${tftp_dir}/${upd_kernel}; then " \
-				"fatwrite mmc ${mmcdev}:${mmcpart} " \
-				"${loadaddr} ${image} ${filesize}; " \
-			"fi; "	\
-		"fi\0" \
-	"update_fdt=" \
-		"run set_ethernet; " \
-		"run update_set_filename; " \
-		"if mmc dev ${mmcdev}; then "	\
-			"if tftp ${tftp_dir}/${upd_fdt}; then " \
-				"fatwrite mmc ${mmcdev}:${mmcpart} " \
-				"${loadaddr} ${fdt_file} ${filesize}; " \
-			"fi; "	\
-		"fi\0" \
-	"update_spi_uboot=" \
-		"run set_ethernet; " \
-		"run update_set_filename; " \
-		"mw.b ${loadaddr} 0xFF 0x80000; " \
-		"tftp ${tftp_dir}/${upd_uboot}; " \
-		"sf probe;sf erase 0x0 0x80000; " \
-		"sf write ${loadaddr} 0x400 0x80000 " \
-		"\0" \
-	"update_script=" \
-		"run set_ethernet; " \
-		"run update_set_filename; " \
-		"if mmc dev ${mmcdev}; then "	\
-			"if tftp ${tftp_dir}/${upd_script}; then " \
-				"fatwrite mmc ${mmcdev}:${mmcpart} " \
-				"${loadaddr} ${script} ${filesize}; " \
-			"fi; "	\
-		"fi\0" \
-	"update_sd_firmware=" \
-		"if test ${ip_dyn} = yes; then " \
-			"setenv get_cmd dhcp; " \
-		"else " \
-			"setenv get_cmd tftp; " \
-		"fi; " \
-		"if mmc dev ${mmcdev}; then "	\
-			"if ${get_cmd} ${update_sd_firmware_filename}; then " \
-				"setexpr fw_sz ${filesize} / 0x200; " \
-				"setexpr fw_sz ${fw_sz} + 1; "	\
-				"mmc write ${loadaddr} 0x2 ${fw_sz}; " \
-			"fi; "	\
 		"fi\0" \
 	EMMC_ENV	  \
 	"video_args_hdmi=setenv video_args $video_args " \
@@ -269,10 +173,9 @@
 			"else " \
 				"if run loadimage; then " \
 					"run mmcboot; " \
-				"else run netboot; " \
 				"fi; " \
 			"fi; " \
-		"else run netboot; fi;\0" \
+		"fi;\0" \
 	"bootsata=echo Booting from SATA ...; " \
 		VIDEO_ARGS_SCRIPT \
 		"run findfdt; " \
@@ -294,27 +197,6 @@
 			"else " \
 				"bootz; " \
 			"fi; " \
-		"else run netboot; fi;\0" \
-	"netargs=setenv bootargs console=${console},${baudrate} " \
-		"root=/dev/nfs " \
-		"ip=dhcp nfsroot=${serverip}:${nfsroot},v3,tcp rootwait rw\0" \
-	"netboot=echo Booting from net ...; " \
-		"run set_ethernet; " \
-		"run update_set_filename; " \
-		"run netargs; " \
-		"tftp ${loadaddr} ${tftp_dir}/${upd_kernel}; " \
-		"if test ${boot_fdt} = yes || test ${boot_fdt} = try; then " \
-			"if tftp ${fdt_addr} ${tftp_dir}/${upd_fdt}; then " \
-				"bootz ${loadaddr} - ${fdt_addr}; " \
-			"else " \
-				"if test ${boot_fdt} = try; then " \
-					"bootz; " \
-				"else " \
-					"echo WARN: Cannot load the DT; " \
-				"fi; " \
-			"fi; " \
-		"else " \
-			"bootz; " \
 		"fi;\0" \
 	"findfdt="\
 		"if test $fdt_file = undefined; then " \
@@ -325,8 +207,6 @@
 			"if test $fdt_file = undefined; then " \
 				"echo WARNING: Could not determine dtb to use; fi; " \
 		"fi;\0" \
-	"bootnet=run netboot;\0" \
-
 
 #define CONFIG_BOOTCOMMAND \
 	"run bootmmc;"
