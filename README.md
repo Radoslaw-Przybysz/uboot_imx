@@ -11,7 +11,7 @@ This is a source code of uBoot for UAVX board.
     sudo apt-get install gcc-arm-linux-gnueabihf
     export CROSS_COMPILE=arm-linux-gnueabihf-
 	
-	or if not
+	or 
 	
 	git clone https://github.com/Radoslaw-Przybysz/gcc-arm-linux-gnueabihf-4.7
 	export CROSS_COMPILE=$PWD/gcc-arm-linux-gnueabihf-4.7/bin/arm-linux-gnueabihf-
