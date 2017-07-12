@@ -37,7 +37,7 @@
 
 #include "mx6uavx_common.h"
 
-#define CONFIG_SYS_FSL_USDHC_NUM	1
+#define CONFIG_SYS_FSL_USDHC_NUM	2
 
 #undef CONFIG_CMD_PCI
 #ifdef CONFIG_CMD_PCI
