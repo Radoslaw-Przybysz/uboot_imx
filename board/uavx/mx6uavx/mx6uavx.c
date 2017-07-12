@@ -100,6 +100,19 @@ static iomux_v3_cfg_t const ecspi3_pads[] = {
 	MX6_PAD_DISP0_DAT5__GPIO4_IO26 | MUX_PAD_CTRL(NO_PAD_CTRL),
 };
 
+static struct i2c_pads_info i2c_pad_info0 = {
+	.scl = {
+		.i2c_mode  = MX6_PAD_EIM_D21__I2C1_SCL   | I2C_PAD,
+		.gpio_mode = MX6_PAD_EIM_D21__GPIO3_IO21 | I2C_PAD,
+		.gp = IMX_GPIO_NR(3, 21)
+	},
+	.sda = {
+		.i2c_mode  = MX6_PAD_EIM_D28__I2C1_SDA   | I2C_PAD,
+		.gpio_mode = MX6_PAD_EIM_D28__GPIO3_IO28 | I2C_PAD,
+		.gp = IMX_GPIO_NR(3, 28)
+	}
+};
+
 static struct i2c_pads_info i2c_pad_info1 = {
 	.scl = {
 		.i2c_mode = MX6_PAD_KEY_COL3__I2C2_SCL | I2C_PAD,
@@ -110,6 +123,19 @@ static struct i2c_pads_info i2c_pad_info1 = {
 		.i2c_mode = MX6_PAD_KEY_ROW3__I2C2_SDA | I2C_PAD,
 		.gpio_mode = MX6_PAD_KEY_ROW3__GPIO4_IO13 | I2C_PAD,
 		.gp = IMX_GPIO_NR(4, 13)
+	}
+};
+
+static struct i2c_pads_info i2c_pad_info2 = {
+	.scl = {
+		.i2c_mode = MX6_PAD_GPIO_5__I2C3_SCL | I2C_PAD,
+		.gpio_mode = MX6_PAD_GPIO_5__GPIO1_IO05 | I2C_PAD,
+		.gp = IMX_GPIO_NR(1, 5)
+	},
+	.sda = {
+		.i2c_mode = MX6_PAD_GPIO_16__I2C3_SDA | I2C_PAD,
+		.gpio_mode = MX6_PAD_GPIO_16__GPIO7_IO11 | I2C_PAD,
+		.gp = IMX_GPIO_NR(7, 11)
 	}
 };
 
@@ -465,8 +491,10 @@ int board_init(void)
 #ifdef CONFIG_MXC_SPI
 	setup_spi();
 #endif
-//	setup_i2c(1, CONFIG_SYS_I2C_SPEED, 0x7f, &i2c_pad_info1);
-
+	setup_i2c(0, CONFIG_SYS_I2C_SPEED, 0x7f, &i2c_pad_info0);
+	setup_i2c(1, CONFIG_SYS_I2C_SPEED, 0x7f, &i2c_pad_info1);
+	setup_i2c(2, CONFIG_SYS_I2C_SPEED, 0x7f, &i2c_pad_info2)
+	
 #ifdef CONFIG_CMD_SATA
 	setup_sata();
 #endif
@@ -519,7 +547,6 @@ int board_spi_cs_gpio(unsigned bus, unsigned cs)
 static const struct boot_mode board_boot_modes[] = {
 	/* 4 bit bus width */
 	{"sd2",	 MAKE_CFGVAL(0x40, 0x28, 0x00, 0x00)},
-	//{"sd3",	 MAKE_CFGVAL(0x40, 0x30, 0x00, 0x00)},
 	/* 8 bit bus width */
 	{"emmc", MAKE_CFGVAL(0x40, 0x38, 0x00, 0x00)},
 	{NULL,	 0},
