@@ -414,14 +414,14 @@ int board_eth_init(bd_t *bis)
 #define UCTRL_PWR_POL		(1 << 9)
 
 static iomux_v3_cfg_t const usb_otg_pads[] = {
-	//MX6_PAD_EIM_D22__USB_OTG_PWR | MUX_PAD_CTRL(NO_PAD_CTRL), //UAVX doesnt have USB PWR EN pin
+	//MX6_PAD_EIM_D22__USB_OTG_PWR | MUX_PAD_CTRL(NO_PAD_CTRL), // doesn't have USB PWR EN pin
 	MX6_PAD_GPIO_1__USB_OTG_ID | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_KEY_COL4__USB_OTG_OC | MUX_PAD_CTRL(NO_PAD_CTRL), //Over current
+	//MX6_PAD_KEY_COL4__USB_OTG_OC | MUX_PAD_CTRL(NO_PAD_CTRL),   // Over current
 };
 
 static iomux_v3_cfg_t const usb_hc1_pads[] = {
-	//MX6_PAD_ENET_TXD1__GPIO1_IO29 | MUX_PAD_CTRL(NO_PAD_CTRL), //UAVX doesnt have USB PWR EN pin
-	MX6_PAD_GPIO_3__USB_H1_OC | MUX_PAD_CTRL(NO_PAD_CTRL), //Over current
+	//MX6_PAD_ENET_TXD1__GPIO1_IO29 | MUX_PAD_CTRL(NO_PAD_CTRL), // doesn't have USB PWR EN pin
+	//MX6_PAD_GPIO_3__USB_H1_OC | MUX_PAD_CTRL(NO_PAD_CTRL),       // Over current
 };
 
 static void setup_usb(void)
@@ -457,7 +457,7 @@ int board_ehci_hcd_init(int port)
 
 int board_ehci_power(int port, int on)
 {
-// UAVX doesnt support this
+	// doesn't support this
 	return 0;
 }
 #endif
@@ -466,7 +466,7 @@ int board_early_init_f(void)
 {
 	setup_iomux_uart();
 #if defined(CONFIG_VIDEO_IPUV3)
-//	setup_display();
+	setup_display();
 #endif
 
 	return 0;
