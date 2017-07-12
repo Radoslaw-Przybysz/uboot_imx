@@ -1,7 +1,9 @@
 /*
  * Copyright (C) 2017 UAVX.
  *
- * Configuration settings for the Freescale i.MX6Q UAVX board.
+ * Author: Radoslaw Przybysz <przybyszradek@gmail.com>
+ *
+ * Configuration settings for the Freescale i.MX6Q UAVX board 35ixx.
  *
  * SPDX-License-Identifier:	GPL-2.0+
  */
@@ -203,6 +205,13 @@
 			"if test $fdt_file = undefined; then " \
 				"echo WARNING: Could not determine dtb to use; fi; " \
 		"fi;\0" \
+	"led="\
+		i2c dev 1;\
+		i2c mw 0x66 0x00 0x00;\
+		i2c mw 0x66 0x01 0x00;\
+		i2c mw 0x66 0x02 0x00;\
+		i2c mw 0x66 0x03 0x8F;\
+		\0" \
 
 #define CONFIG_BOOTCOMMAND \
 	"run bootmmc;"

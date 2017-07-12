@@ -1,7 +1,9 @@
 /*
  * Copyright (C) 2017 UAVX.
  *
- * Configuration settings for the Freescale i.MX6Q UAVX board.
+ * Author: Radoslaw Przybysz <przybyszradek@gmail.com>
+ *
+ * Configuration settings for the Freescale i.MX6Q UAVX board 35ixx.
  *
  * SPDX-License-Identifier:	GPL-2.0+
  */
