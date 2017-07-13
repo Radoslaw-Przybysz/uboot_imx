@@ -1,2 +1,2 @@
 
-obj-y  := mx6uavx.o
+obj-y  := mx6q_uavx_35i00.o

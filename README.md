@@ -3,7 +3,7 @@ This is a source code of uBoot for UAVX board.
 
 # Download source code
     git clone https://github.com/Radoslaw-Przybysz/uboot.git
-    cd uboot
+    cd uboot_imx
 
 # Install & select cross compiler
 
@@ -23,5 +23,5 @@ This is a source code of uBoot for UAVX board.
 Here are instructions how to compile the source code
 
     make distclean
-    make mx6quavx_config
+    make mx6q_UAVX_35i00_config
     make

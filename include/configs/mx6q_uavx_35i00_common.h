@@ -3,13 +3,13 @@
  *
  * Author: Radoslaw Przybysz <przybyszradek@gmail.com>
  *
- * Configuration settings for the Freescale i.MX6Q UAVX board 35ixx.
+ * Configuration settings for the Freescale i.MX6Q UAVX board 35i00.
  *
  * SPDX-License-Identifier:	GPL-2.0+
  */
 
-#ifndef __MX6QUAVX_COMMON_CONFIG_H
-#define __MX6QUAVX_COMMON_CONFIG_H
+#ifndef __MX6Q_UAVX_35I00_COMMON_CONFIG_H
+#define __MX6Q_UAVX_35I00_COMMON_CONFIG_H
 
 #include "mx6_common.h"
 
@@ -300,4 +300,4 @@
 #define CONFIG_DFU_SF
 #endif
 
-#endif                         /* __MX6QUAVX_COMMON_CONFIG_H */
+#endif                         /* __MX6Q_UAVX_35I00_COMMON_CONFIG_H */

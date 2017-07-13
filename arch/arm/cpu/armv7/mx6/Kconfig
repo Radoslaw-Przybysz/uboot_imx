@@ -86,8 +86,8 @@ config TARGET_MX6QSABREAUTO
 	select DM
 	select DM_THERMAL
 
-config TARGET_MX6UAVX
-	bool "mx6uavx"
+config TARGET_MX6Q_UAVX_35i00
+	bool "mx6q_uavx_35i00"
 	select SUPPORT_SPL
 	select DM
 	select DM_THERMAL
@@ -250,7 +250,7 @@ source "board/solidrun/mx6cuboxi/Kconfig"
 source "board/tbs/tbs2910/Kconfig"
 source "board/technexion/picosom-imx6ul/Kconfig"
 source "board/tqc/tqma6/Kconfig"
-source "board/uavx/mx6uavx/Kconfig"
+source "board/uavx/mx6q_uavx_35i00/Kconfig"
 source "board/udoo/Kconfig"
 source "board/wandboard/Kconfig"
 source "board/warp/Kconfig"
