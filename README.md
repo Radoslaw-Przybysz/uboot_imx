@@ -23,5 +23,5 @@ This is a source code of uBoot for UAVX board.
 Here are instructions how to compile the source code
 
     make distclean
-    make mx6q_UAVX_35i00_config
+    make mx6q_uavx_35i00_defconfig
     make
