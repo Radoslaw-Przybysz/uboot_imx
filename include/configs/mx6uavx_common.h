@@ -123,10 +123,10 @@
 			"setenv upd_script " CONFIG_ENV_DEFAULT_SCR_FILE "; " \
 		"fi\0" \
 	EMMC_ENV	  \
-	"video_args_hdmi=setenv video_args $video_args video=mxcfb0:dev=hdmi,1280x720M@60,if=RGB24\0" \
+	"video_args_hdmi=setenv video_args $video_args video=mxcfb0:dev=hdmi,1024x600M@60,if=RGB24\0" \
 	"video_args_lvds=setenv video_args $video_args video=mxcfb3:dev=ldb,LDB-XGA,if=RGB666\0" \
 	"video_args_lcd=setenv video_args $video_args video=mxcfb3:dev=lcd,CLAA-WVGA,if=RGB666\0" \
-	"video_interfaces=lvds\0" \
+	"video_interfaces=hdmi\0" \
 	"video_args_script=" \
 		"for v in ${video_interfaces}; do " \
 			"run video_args_${v}; " \
