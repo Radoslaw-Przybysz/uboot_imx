@@ -87,7 +87,7 @@ config TARGET_MX6QSABREAUTO
 	select DM_THERMAL
 
 config TARGET_MX6Q_UAVX_35i00
-	bool "mx6q_uavx_35i00"
+	bool "mx6q"
 	select SUPPORT_SPL
 	select DM
 	select DM_THERMAL
