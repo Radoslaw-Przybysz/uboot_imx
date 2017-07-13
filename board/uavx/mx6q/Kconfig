@@ -7,6 +7,6 @@ config SYS_VENDOR
 	default "uavx"
 
 config SYS_CONFIG_NAME
-	default "mx6q_uavx_35i00"
+	default "mx6q"
 
 endif
