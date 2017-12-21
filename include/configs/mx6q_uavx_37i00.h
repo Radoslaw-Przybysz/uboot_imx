@@ -3,13 +3,13 @@
  *
  * Author: Radoslaw Przybysz <przybyszradek@gmail.com>
  *
- * Configuration settings for the Freescale i.MX6Q UAVX board 35ixx.
+ * Configuration settings for the Freescale i.MX6Q UAVX board 37ixx.
  *
  * SPDX-License-Identifier:	GPL-2.0+
  */
 
-#ifndef __MX6Q_UAVX_35I00_CONFIG_H
-#define __MX6Q_UAVX_35I00_CONFIG_H
+#ifndef __MX6Q_UAVX_37I00_CONFIG_H
+#define __MX6Q_UAVX_37I00_CONFIG_H
 
 #ifdef CONFIG_SPL
 #define CONFIG_SPL_LIBCOMMON_SUPPORT
@@ -26,14 +26,14 @@
 #if defined(CONFIG_DDR_SIZE) 
 #define PHYS_SDRAM_SIZE         CONFIG_DDR_SIZE
 #else
-#define PHYS_SDRAM_SIZE         SZ_256M
+#define PHYS_SDRAM_SIZE         SZ_512M
 #warning "Using default SDRAM size"
 #endif
 
 #define VIDEO_ARGS        "${video_args}"
 #define VIDEO_ARGS_SCRIPT "run video_args_script; "
 
-#include "mx6q_uavx_35i00_common.h"
+#include "mx6q_uavx_37i00_common.h"
 
 #define CONFIG_SYS_FSL_USDHC_NUM	2
 

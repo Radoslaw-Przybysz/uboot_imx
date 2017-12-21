@@ -92,6 +92,12 @@ config TARGET_MX6Q_UAVX_35i00
 	select DM
 	select DM_THERMAL
 	
+config TARGET_MX6Q_UAVX_37i00
+	bool "mx6q_pop"
+	select SUPPORT_SPL
+	select DM
+	select DM_THERMAL
+	
 config TARGET_MX6SABRESD
 	bool "mx6sabresd"
 	select SUPPORT_SPL
@@ -251,6 +257,7 @@ source "board/tbs/tbs2910/Kconfig"
 source "board/technexion/picosom-imx6ul/Kconfig"
 source "board/tqc/tqma6/Kconfig"
 source "board/uavx/mx6q/Kconfig"
+source "board/uavx/mx6q_pop/Kconfig"
 source "board/udoo/Kconfig"
 source "board/wandboard/Kconfig"
 source "board/warp/Kconfig"

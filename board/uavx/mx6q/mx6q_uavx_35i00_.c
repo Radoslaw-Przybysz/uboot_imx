@@ -3,53 +3,45 @@
  *
  * Author: Radoslaw Przybysz <przybyszradek@gmail.com>
  *
- * Configuration settings for the Freescale i.MX6Q UAVX board 37ixx.
+ * Configuration settings for the Freescale i.MX6Q UAVX board 35ixx.
  *
  * SPDX-License-Identifier:	GPL-2.0+
  */
 
-#include <common.h>
-#include <asm/io.h>
+#include <asm/arch/clock.h>
 #include <asm/arch/imx-regs.h>
 #include <asm/arch/iomux.h>
 #include <asm/arch/mx6-pins.h>
-#include <asm/arch/clock.h>
-#include <asm/arch/mxc_hdmi.h>
-#include <asm/arch/crm_regs.h>
-#include <asm/arch/sys_proto.h>
 #include <asm/errno.h>
 #include <asm/gpio.h>
 #include <asm/imx-common/mxc_i2c.h>
 #include <asm/imx-common/sata.h>
 #include <asm/imx-common/iomux-v3.h>
 #include <asm/imx-common/boot_mode.h>
+#include <asm/imx-common/video.h>
 #include <mmc.h>
 #include <fsl_esdhc.h>
 #include <miiphy.h>
 #include <netdev.h>
-#include <usb.h>
-
+#include <asm/arch/mxc_hdmi.h>
+#include <asm/arch/crm_regs.h>
+#include <asm/io.h>
+#include <asm/arch/sys_proto.h>
 #include <i2c.h>
-#ifdef CONFIG_FSL_FASTBOOT
-#include <fsl_fastboot.h>
-#ifdef CONFIG_ANDROID_RECOVERY
-#include <recovery.h>
-#endif
-#endif /*CONFIG_FSL_FASTBOOT*/
+#include <power/pmic.h>
+#include <power/pfuze100_pmic.h>
+#include <asm/arch/mx6-ddr.h>
+#include <usb.h>
 
 DECLARE_GLOBAL_DATA_PTR;
 
-#define UART_PAD_CTRL  (PAD_CTL_PUS_100K_UP |			\
+#define UART_PAD_CTRL  (PAD_CTL_PUS_100K_UP |		\
 	PAD_CTL_SPEED_MED | PAD_CTL_DSE_40ohm |			\
 	PAD_CTL_SRE_FAST  | PAD_CTL_HYS)
 
-#define USDHC_PAD_CTRL (PAD_CTL_PUS_47K_UP |			\
+#define USDHC_PAD_CTRL (PAD_CTL_PUS_47K_UP |		\
 	PAD_CTL_SPEED_LOW | PAD_CTL_DSE_80ohm |			\
 	PAD_CTL_SRE_FAST  | PAD_CTL_HYS)
-
-#define OTG_ID_PAD_CTRL (PAD_CTL_PKE | PAD_CTL_PUE |		\
-	PAD_CTL_PUS_47K_UP  | PAD_CTL_SPEED_LOW |		\
-	PAD_CTL_DSE_80ohm   | PAD_CTL_SRE_FAST  | PAD_CTL_HYS)
 
 #define RESET_OD_PAD_CTRL  (PAD_CTL_ODE | PAD_CTL_HYS |		\
 	PAD_CTL_SPEED_MED | PAD_CTL_DSE_40ohm | PAD_CTL_PUS_100K_UP )
@@ -64,6 +56,7 @@ DECLARE_GLOBAL_DATA_PTR;
 #define PULLUP_PAD_CTRL  (PAD_CTL_PUS_47K_UP |				\
 	PAD_CTL_SPEED_MED | PAD_CTL_SRE_FAST)
 	
+//#define I2C_PMIC	1
 
 #define I2C_PAD MUX_PAD_CTRL(I2C_PAD_CTRL)
 
@@ -73,18 +66,11 @@ int dram_init(void)
 	return 0;
 }
 
-void dram_init_banksize(void)
-{
-	gd->bd->bi_dram[0].start = PHYS_SDRAM_0;
-	gd->bd->bi_dram[0].size = (phys_size_t)CONFIG_DDR_MB * 1024 * 1024;
-	gd->bd->bi_dram[1].start = PHYS_SDRAM_1;
-	gd->bd->bi_dram[1].size = (phys_size_t)CONFIG_DDR_MB * 1024 * 1024;
-}
-
 static iomux_v3_cfg_t const uart1_pads[] = {
 	MX6_PAD_CSI0_DAT10__UART1_TX_DATA | MUX_PAD_CTRL(UART_PAD_CTRL),  
 	MX6_PAD_CSI0_DAT11__UART1_RX_DATA | MUX_PAD_CTRL(UART_PAD_CTRL),  
 }; 
+
 static iomux_v3_cfg_t const usdhc2_pads[] = {
 	MX6_PAD_SD2_CLK__SD2_CLK	| MUX_PAD_CTRL(USDHC_PAD_CTRL),
 	MX6_PAD_SD2_CMD__SD2_CMD	| MUX_PAD_CTRL(USDHC_PAD_CTRL),
@@ -96,8 +82,8 @@ static iomux_v3_cfg_t const usdhc2_pads[] = {
 };
 
 static iomux_v3_cfg_t const usdhc3_pads[] = {
-	MX6_PAD_SD3_CLK__SD3_CLK   | MUX_PAD_CTRL(USDHC_PAD_CTRL),
-	MX6_PAD_SD3_CMD__SD3_CMD   | MUX_PAD_CTRL(USDHC_PAD_CTRL),
+	MX6_PAD_SD3_CLK__SD3_CLK    | MUX_PAD_CTRL(USDHC_PAD_CTRL),
+	MX6_PAD_SD3_CMD__SD3_CMD    | MUX_PAD_CTRL(USDHC_PAD_CTRL),
 	MX6_PAD_SD3_DAT0__SD3_DATA0 | MUX_PAD_CTRL(USDHC_PAD_CTRL),
 	MX6_PAD_SD3_DAT1__SD3_DATA1 | MUX_PAD_CTRL(USDHC_PAD_CTRL),
 	MX6_PAD_SD3_DAT2__SD3_DATA2 | MUX_PAD_CTRL(USDHC_PAD_CTRL),
@@ -106,7 +92,7 @@ static iomux_v3_cfg_t const usdhc3_pads[] = {
 	MX6_PAD_SD3_DAT5__SD3_DATA5 | MUX_PAD_CTRL(USDHC_PAD_CTRL),
 	MX6_PAD_SD3_DAT6__SD3_DATA6 | MUX_PAD_CTRL(USDHC_PAD_CTRL),
 	MX6_PAD_SD3_DAT7__SD3_DATA7 | MUX_PAD_CTRL(USDHC_PAD_CTRL),
-
+	MX6_PAD_SD3_RST__GPIO7_IO08 | MUX_PAD_CTRL(PULLUP_PAD_CTRL), 	// RESET 
 };
 
 static iomux_v3_cfg_t const ecspi3_pads[] = {
@@ -173,6 +159,7 @@ static iomux_v3_cfg_t const pcie_pads[] = {
 	MX6_PAD_SD4_DAT3__GPIO2_IO11 | MUX_PAD_CTRL(PULLUP_PAD_CTRL),	/* WAKE */
 	MX6_PAD_SD1_CMD__GPIO1_IO18 | MUX_PAD_CTRL(PULLUP_PAD_CTRL),	/* RESET */
 };
+
 static void setup_pcie(void)
 {
 	imx_iomux_v3_setup_multiple_pads(pcie_pads, ARRAY_SIZE(pcie_pads));
@@ -254,7 +241,10 @@ int board_mmc_init(bd_t *bis)
 }
 #endif
 
-
+int board_phy_config(struct phy_device *phydev)
+{
+	return 0;
+}
 
 /*
  * Do not overwrite the console
@@ -264,13 +254,22 @@ int overwrite_console(void)
 {
 	return 1;
 }
+
+int board_eth_init(bd_t *bis)
+{
+	setup_pcie();
+
+	return cpu_eth_init(bis);
+}
+
 #ifdef CONFIG_USB_EHCI_MX6
 #define USB_OTHERREGS_OFFSET	0x800
 #define UCTRL_PWR_POL		(1 << 9)
 
 static iomux_v3_cfg_t const usb_otg_pads[] = {
-	MX6_PAD_EIM_D22__USB_OTG_PWR | MUX_PAD_CTRL(NO_PAD_CTRL),
-	MX6_PAD_GPIO_1__USB_OTG_ID | MUX_PAD_CTRL(OTG_ID_PAD_CTRL),
+	//MX6_PAD_EIM_D22__USB_OTG_PWR | MUX_PAD_CTRL(NO_PAD_CTRL), // doesn't have USB PWR EN pin
+	MX6_PAD_GPIO_1__USB_OTG_ID | MUX_PAD_CTRL(NO_PAD_CTRL),
+	//MX6_PAD_KEY_COL4__USB_OTG_OC | MUX_PAD_CTRL(NO_PAD_CTRL),   // Over current
 };
 
 static iomux_v3_cfg_t const usb_hc1_pads[] = {
@@ -280,16 +279,18 @@ static iomux_v3_cfg_t const usb_hc1_pads[] = {
 
 static void setup_usb(void)
 {
-	imx_iomux_v3_setup_multiple_pads(usb_otg_pads,
-					 ARRAY_SIZE(usb_otg_pads));
 
-	/*
-	 * set daisy chain for otg_pin_id on 6q.
-	 * for 6dl, this bit is reserved
-	 */
-	imx_iomux_set_gpr_register(1, 13, 1, 1);
+	imx_iomux_v3_setup_multiple_pads(usb_otg_pads,
+					 ARRAY_SIZE(usb_otg_pads));	
+
+	//The ID pin of OTG Port needs to configure the GPR1 bit 13 for selecting
+	//its daisy chain. Function "imx_iomux_set_gpr_register" handles GPR register setting.	
+	imx_iomux_set_gpr_register(1, 13, 1, 1); //for q, GPR1, bit 13, set to 1 to select GPIO_1
+	//for dl, do we need to set IOMUXC_ANALOG_USB_OTG_ID_SELECT_INPUT, bit DAISY to 1 (?)
+
 	imx_iomux_v3_setup_multiple_pads(usb_hc1_pads,
 					 ARRAY_SIZE(usb_hc1_pads));
+
 }
 
 int board_ehci_hcd_init(int port)
@@ -308,7 +309,6 @@ int board_ehci_hcd_init(int port)
 }
 
 int board_ehci_power(int port, int on)
-
 {
 	// doesn't support this
 	return 0;
@@ -325,10 +325,21 @@ int board_early_init_f(void)
 	return 0;
 }
 
+static iomux_v3_cfg_t const peripheral_reset_pad[] = {
+	MX6_PAD_EIM_A25__GPIO5_IO02 | MUX_PAD_CTRL(RESET_OD_PAD_CTRL)
+};
+
 int board_init(void)
 {
 	/* address of boot parameters */
 	gd->bd->bi_boot_params = PHYS_SDRAM + 0x100;
+
+	//RESET Peripherals
+	imx_iomux_v3_setup_multiple_pads(peripheral_reset_pad,
+						 ARRAY_SIZE(peripheral_reset_pad));
+	gpio_set_value(IMX_GPIO_NR(5, 2), 0);
+	mdelay(2);
+	gpio_set_value(IMX_GPIO_NR(5, 2), 1);
 
 #ifdef CONFIG_MXC_SPI
 	setup_spi();
@@ -336,16 +347,45 @@ int board_init(void)
 	setup_i2c(0, CONFIG_SYS_I2C_SPEED, 0x7f, &i2c_pad_info0);
 	setup_i2c(1, CONFIG_SYS_I2C_SPEED, 0x7f, &i2c_pad_info1);
 	setup_i2c(2, CONFIG_SYS_I2C_SPEED, 0x7f, &i2c_pad_info2);
-
+	
 #ifdef CONFIG_CMD_SATA
 	setup_sata();
 #endif
-
 
 #ifdef CONFIG_USB_EHCI_MX6
 	setup_usb();
 #endif
 
+	return 0;
+}
+
+int power_init_board(void)
+{
+/*
+	struct pmic *p;
+	unsigned int reg;
+	int ret;
+
+	p = pfuze_common_init(I2C_PMIC);
+	if (!p)
+		return -ENODEV;
+
+	ret = pfuze_mode_init(p, APS_PFM);
+	if (ret < 0)
+		return ret;
+
+	// Increase VGEN3 from 2.5 to 2.8V 
+	pmic_reg_read(p, PFUZE100_VGEN3VOL, &reg);
+	reg &= ~LDO_VOL_MASK;
+	reg |= LDOB_2_80V;
+	pmic_reg_write(p, PFUZE100_VGEN3VOL, reg);
+
+	// Increase VGEN5 from 2.8 to 3V
+	pmic_reg_read(p, PFUZE100_VGEN5VOL, &reg);
+	reg &= ~LDO_VOL_MASK;
+	reg |= LDOB_3_00V;
+	pmic_reg_write(p, PFUZE100_VGEN5VOL, reg);
+*/
 	return 0;
 }
 
@@ -365,12 +405,9 @@ static const struct boot_mode board_boot_modes[] = {
 	{NULL,	 0},
 };
 #endif
+
 int board_late_init(void)
 {
-#ifdef CONFIG_ENV_IS_IN_MMC
-	board_late_mmc_env_init();
-#endif
-
 #ifdef CONFIG_CMD_BMODE
 	add_board_boot_modes(board_boot_modes);
 #endif
@@ -385,6 +422,7 @@ int board_late_init(void)
 	else if (is_cpu_type(MXC_CPU_MX6DL) || is_cpu_type(MXC_CPU_MX6SOLO))
 		setenv("board_rev", "MX6DL");
 #endif
+
 	return 0;
 }
 
@@ -395,34 +433,7 @@ int checkboard(void)
 }
 
 #ifdef CONFIG_LDO_BYPASS_CHECK
-/* no external pmic, always ldo_enable */
 void ldo_mode_set(int ldo_bypass)
 {
-
 }
-#endif
-
-#ifdef CONFIG_FSL_FASTBOOT
-void board_fastboot_setup(void)
-{
-	if (!getenv("fastboot_dev"))
-		setenv("fastboot_dev", "mmc0");
-	if (!getenv("bootcmd"))
-		setenv("bootcmd", "boota mmc0");
-}
-
-#ifdef CONFIG_ANDROID_RECOVERY
-int check_recovery_cmd_file(void) {
-	return 0;
-}
-
-void board_recovery_setup(void)
-{
-	if (!getenv("bootcmd_android_recovery"))
-		setenv("bootcmd_android_recovery", "boota mmc0 recovery");
-
-	printf("setup env for recovery..\n");
-	setenv("bootcmd", "run bootcmd_android_recovery");
-}
-#endif
 #endif

@@ -154,7 +154,7 @@ static void setup_spi(void)
 	imx_iomux_v3_setup_multiple_pads(ecspi3_pads, ARRAY_SIZE(ecspi3_pads));
 }
 
-iomux_v3_cfg_t const pcie_pads[] = {
+static iomux_v3_cfg_t const pcie_pads[] = {
 	MX6_PAD_SD1_DAT0__GPIO1_IO16 | MUX_PAD_CTRL(PULLUP_PAD_CTRL),	/* DIS */
 	MX6_PAD_SD4_DAT3__GPIO2_IO11 | MUX_PAD_CTRL(PULLUP_PAD_CTRL),	/* WAKE */
 	MX6_PAD_SD1_CMD__GPIO1_IO18 | MUX_PAD_CTRL(PULLUP_PAD_CTRL),	/* RESET */
