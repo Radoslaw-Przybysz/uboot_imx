@@ -83,10 +83,10 @@
 
 
 /* Env settings */
-#define CONFIG_ENV_DEFAULT_UBT_FILE         "u-boot-" "UAVX" CONFIG_UAVX_DEFAULT_ARCH_POSTFIX ".imx"
-#define CONFIG_ENV_DEFAULT_IMG_FILE         "zImage-" "UAVX" CONFIG_UAVX_DEFAULT_ARCH_POSTFIX
-#define CONFIG_ENV_DEFAULT_FDT_FILE                   "UAVX" CONFIG_UAVX_DEFAULT_ARCH_POSTFIX ".dtb"
-#define CONFIG_ENV_DEFAULT_SCR_FILE         "boot-"   "UAVX" CONFIG_UAVX_DEFAULT_ARCH_POSTFIX ".scr"
+#define CONFIG_ENV_DEFAULT_UBT_FILE         "u-boot-" "UAVX" ".imx"
+#define CONFIG_ENV_DEFAULT_IMG_FILE         "zImage-" "UAVX" 
+#define CONFIG_ENV_DEFAULT_FDT_FILE                   "UAVX" ".dtb"
+#define CONFIG_ENV_DEFAULT_SCR_FILE         "boot-"   "UAVX" ".scr"
 
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	"script="   CONFIG_ENV_DEFAULT_SCR_FILE "\0" \
