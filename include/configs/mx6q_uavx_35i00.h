@@ -26,7 +26,7 @@
 #if defined(CONFIG_DDR_SIZE) 
 #define PHYS_SDRAM_SIZE         CONFIG_DDR_SIZE
 #else
-#define PHYS_SDRAM_SIZE         SZ_256M
+#define PHYS_SDRAM_SIZE         SZ_2G
 #warning "Using default SDRAM size"
 #endif
 
