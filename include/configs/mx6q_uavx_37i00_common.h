@@ -24,7 +24,7 @@
 #define CONFIG_MXC_UART
 
 /* MMC Configs */
-#define CONFIG_SYS_FSL_ESDHC_ADDR      USDHC2_BASE_ADDR
+#define CONFIG_SYS_FSL_ESDHC_ADDR      0
 #define CONFIG_MMC
 #define CONFIG_CMD_MMC
 #define CONFIG_GENERIC_MMC
