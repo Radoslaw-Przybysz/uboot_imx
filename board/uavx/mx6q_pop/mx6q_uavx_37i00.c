@@ -92,7 +92,7 @@ static iomux_v3_cfg_t const usdhc2_pads[] = {
 	MX6_PAD_SD2_DAT1__SD2_DATA1	| MUX_PAD_CTRL(USDHC_PAD_CTRL),
 	MX6_PAD_SD2_DAT2__SD2_DATA2	| MUX_PAD_CTRL(USDHC_PAD_CTRL),
 	MX6_PAD_SD2_DAT3__SD2_DATA3	| MUX_PAD_CTRL(USDHC_PAD_CTRL),
-	MX6_PAD_GPIO_4__GPIO1_IO04	| MUX_PAD_CTRL(NO_PAD_CTRL), 		// CD 
+	MX6_PAD_GPIO_4__GPIO1_IO04	| MUX_PAD_CTRL(PULLUP_PAD_CTRL), 		// CD 
 };
 
 static iomux_v3_cfg_t const usdhc3_pads[] = {
@@ -198,7 +198,7 @@ int board_mmc_getcd(struct mmc *mmc)
 
 	switch (cfg->esdhc_base) {
 	case USDHC2_BASE_ADDR:
-		ret = gpio_get_value(USDHC2_CD_GPIO);
+		ret = !gpio_get_value(USDHC2_CD_GPIO);
 		break;
 	case USDHC3_BASE_ADDR:
 		ret = 1;	/* eMMC is always present */
